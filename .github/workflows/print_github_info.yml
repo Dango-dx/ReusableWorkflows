@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: github
         env:
-          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+          EVENT_CONTEXT: ${{ toJSON(github) }}
         run: |
           # https://docs.github.com/zh/actions/learn-github-actions/contexts#github-context
           # 工作流程中任何作业或步骤期间可用的顶层上下文。 此对象包含下面列出的所有属性。
