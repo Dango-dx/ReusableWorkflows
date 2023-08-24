@@ -3,6 +3,15 @@ name: 打印GithubContext
 on:
   workflow_call:
 jobs:
+  runner_context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: runner
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: |
+          echo $RUNNER_CONTEXT
+
   github_context:
     runs-on: ubuntu-latest
     steps:
