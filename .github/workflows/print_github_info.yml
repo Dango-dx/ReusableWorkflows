@@ -7,10 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: github
+        env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           # https://docs.github.com/zh/actions/learn-github-actions/contexts#github-context
           # 工作流程中任何作业或步骤期间可用的顶层上下文。 此对象包含下面列出的所有属性。
-          echo "$github"
+          echo $EVENT_CONTEXT
 
           # 正在运行的操作的名称，或步骤的 id。 在当前步骤运行脚本（无 id）时，GitHub 删除特殊字符并使用名称 __run。 
           # 如果在同一作业中多次使用相同的操作，则名称将包含一个前面跟序号和下划线的后缀。 
