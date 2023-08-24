@@ -12,9 +12,9 @@ jobs:
         run: |
           echo $RUNNER_CONTEXT
 
-  github_context:
-    runs-on: ubuntu-latest
-    steps:
+#  github_context:
+#    runs-on: ubuntu-latest
+#    steps:
       - name: github
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
