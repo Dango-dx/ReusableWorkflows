@@ -1,0 +1,28 @@
+name: 打印提交信息
+
+on:
+  workflow_call:
+jobs:
+  printGithubInfo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 打印环境变量
+        run: |
+          env
+
+      - name: github.sha
+        run: |
+          echo "Current Commit SHA: ${{ github.sha }}"
+
+      - name: github.ref
+        run: |
+          echo "Current Ref: ${{ github.ref }}"
+
+      - name: github.actor
+        run: |
+          echo "Commit Author: ${{ github.actor }}"
+
+
+      - name: github.repository
+        run: |
+          echo "Repository: ${{ github.repository }}"
