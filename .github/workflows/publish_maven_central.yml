@@ -22,3 +22,6 @@ jobs:
           chmod +x ./gradlew 
           ./gradlew ${{ inputs.module_path }}:assemble
           ./gradlew ${{ inputs.module_path }}:publish
+        with:
+          name: my-artifacts
+          path: ./lib/widget/build/outputs/aar/
