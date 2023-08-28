@@ -13,5 +13,5 @@ jobs:
     steps:
       - name: 打印参数
         run: |
-          echo "inputs.artifact_name = ${{ inputs.config-path }}"
+          echo "inputs.artifact_name = ${{ inputs.artifact_name }}"
           echo "inputs.version_name = ${{ inputs.version_name }}"
