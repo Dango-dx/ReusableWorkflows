@@ -19,4 +19,5 @@ jobs:
           echo "inputs.module_path = ${{ inputs.module_path }}"
           echo "inputs.artifact_name = ${{ inputs.artifact_name }}"
           echo "inputs.version_name = ${{ inputs.version_name }}"
+          ls -a
           chmod +x ./gradlew && ./gradlew ${{ inputs.module_path }}:publish
