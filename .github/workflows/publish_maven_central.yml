@@ -1,6 +1,9 @@
 on:
   workflow_call:
     inputs:
+      module_path:
+        required: true
+        type: string
       artifact_name:
         required: true
         type: string
@@ -13,5 +16,6 @@ jobs:
     steps:
       - name: 打印参数
         run: |
+          echo "inputs.module_path = ${{ inputs.module_path }}"
           echo "inputs.artifact_name = ${{ inputs.artifact_name }}"
           echo "inputs.version_name = ${{ inputs.version_name }}"
