@@ -25,5 +25,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifacts
+          name: aar1
           path: ./lib/widget/build/outputs/aar/
