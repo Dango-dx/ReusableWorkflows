@@ -1,0 +1,17 @@
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        required: true
+        type: string
+      version_name:
+        required: true
+        type: string
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 打印参数
+        run: |
+          echo "inputs.artifact_name = ${{ inputs.config-path }}"
+          echo "inputs.version_name = ${{ inputs.version_name }}"
