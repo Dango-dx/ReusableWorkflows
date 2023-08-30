@@ -21,6 +21,7 @@ jobs:
       - name: Lint
         run: |
           module_path=$(echo "lib/widget/" | sed 's/\//:/g' | sed 's/^://')
+          module_path=":${module_path}"  # Add a leading colon
           echo "Converted module path: $module_path"
           ./gradlew $module_path:lint
       - name: Check the current version number
