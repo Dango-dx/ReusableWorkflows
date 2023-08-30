@@ -24,7 +24,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Lint
         run: |
-          ./gradlew :lib:widget:lint
+          module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//:/g')
+          ./gradlew ￥module_path:lint
       - name: Check the current version number
         id: generate_version
         run: |
@@ -63,7 +64,8 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
         run: |
-          ./gradlew :lib:widget:publish
+          module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//:/g')
+          ./gradlew $module_path:publish
       - name: Push versionCode
         run: |
           git config --global --add safe.directory /__w/DangoUnit/DangoUnit
@@ -78,7 +80,8 @@ jobs:
           git config --global --add safe.directory /__w/DangoUnit/DangoUnit
           git config --global user.email "github-actions@example.com"
           git config --global user.name "GitHub Actions"
-          new_tag="lib_widget_v_${{ steps.generate_version.outputs.new_version }}"
+          module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//_/g')
+          new_tag="$module_pathv${{ steps.generate_version.outputs.new_version }}"
           git tag $new_tag
           git push origin $new_tag
       - name: Upload artifact
