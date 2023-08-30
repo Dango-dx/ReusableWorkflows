@@ -7,9 +7,6 @@ on:
       artifact_name:
         required: true
         type: string
-      version_name:
-        required: true
-        type: string
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -18,7 +15,6 @@ jobs:
         run: |
           echo "module_path : ${{ inputs.module_path }}"
           echo "artifact_name : ${{ inputs.artifact_name }}"
-          echo "version_name : ${{ inputs.version_name }}"
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
@@ -32,9 +28,9 @@ jobs:
       - name: Check the current version number
         id: generate_version
         run: |
-          prev_version_1=$(grep "VERSION_NAME=" lib/widget/gradle.properties | sed -E 's/VERSION_NAME=([0-9]+)\.[0-9]+\.[0-9]+/\1/')
-          prev_version_2=$(grep "VERSION_NAME=" lib/widget/gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.([0-9]+)\.[0-9]+/\1/')
-          prev_version_3=$(grep "VERSION_NAME=" lib/widget/gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.[0-9]+\.([0-9]+)/\1/')
+          prev_version_1=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=([0-9]+)\.[0-9]+\.[0-9]+/\1/')
+          prev_version_2=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.([0-9]+)\.[0-9]+/\1/')
+          prev_version_3=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.[0-9]+\.([0-9]+)/\1/')
           new_version_1=$prev_version_1
           new_version_2=$prev_version_2
           new_version_3=$((prev_version_3 + 1))
@@ -54,11 +50,11 @@ jobs:
         run: |
           # Update the versionCode in the build file
           new_version="${{ steps.generate_version.outputs.new_version }}"
-          sed -i "s/^VERSION_NAME=.*/VERSION_NAME=$new_version/" lib/widget/gradle.properties
+          sed -i "s/^VERSION_NAME=.*/VERSION_NAME=$new_version/" ${{ inputs.module_path }}gradle.properties
       - name: Print local version number
         run: |
           # Update the versionCode in the build file
-          grep "VERSION_NAME" lib/widget/gradle.properties | grep '[0-9]\+$'
+          grep "VERSION_NAME" ${{ inputs.module_path }}gradle.properties | grep '[0-9]\+$'
       - name: Publish mavenCentral
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
@@ -89,4 +85,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: aar
-          path: ./lib/widget/build/outputs/aar/
+          path: ./${{ inputs.module_path }}build/outputs/aar/
