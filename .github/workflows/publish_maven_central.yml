@@ -21,7 +21,7 @@ jobs:
       - name: Lint
         run: |
           module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//:/g')
-          ./gradlew ￥module_path:lint
+          ./gradlew $module_path:lint
       - name: Check the current version number
         id: generate_version
         run: |
