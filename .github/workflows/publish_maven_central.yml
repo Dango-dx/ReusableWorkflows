@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Lint
         run: |
-          module_path=$(echo "lib/widget/" | sed 's/\//:/g' | sed 's/^://')
+          module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//:/g' | sed 's/^://')
           module_path=":${module_path}"  # Add a leading colon
           echo "Converted module path: $module_path"
           ./gradlew ${module_path}lint
@@ -62,7 +62,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
         run: |
-          module_path=$(echo "lib/widget/" | sed 's/\//:/g' | sed 's/^://')
+          module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//:/g' | sed 's/^://')
           module_path=":${module_path}"  # Add a leading colon
           echo "Converted module path: $module_path"
           ./gradlew ${module_path}publish
@@ -73,6 +73,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           PREV_COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)
           NEW_COMMIT_MESSAGE="$PREV_COMMIT_MESSAGE -->  Update versionCode"
+          git fetch origin
           git commit -am "$NEW_COMMIT_MESSAGE"
           git push
       - name: Push tag
@@ -80,8 +81,8 @@ jobs:
           git config --global --add safe.directory /__w/DangoUnit/DangoUnit
           git config --global user.email "github-actions@example.com"
           git config --global user.name "GitHub Actions"
-          module_path=$(echo "lib/widget/" | sed 's/\//_/g' | sed 's/_$//')
-          new_tag="${module_path}v${{ steps.generate_version.outputs.new_version }}"
+          module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//_/g' | sed 's/_$//')
+          new_tag="${module_path}_v${{ steps.generate_version.outputs.new_version }}"
           git tag $new_tag
           git push origin $new_tag
       - name: Upload artifact
