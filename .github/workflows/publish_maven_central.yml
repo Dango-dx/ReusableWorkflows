@@ -4,9 +4,6 @@ on:
       module_path:
         required: true
         type: string
-      artifact_name:
-        required: true
-        type: string
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -14,7 +11,6 @@ jobs:
       - name: print inputs
         run: |
           echo "module_path : ${{ inputs.module_path }}"
-          echo "artifact_name : ${{ inputs.artifact_name }}"
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
