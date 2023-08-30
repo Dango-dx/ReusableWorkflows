@@ -85,6 +85,7 @@ jobs:
           module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//_/g' | sed 's/_$//')
           new_tag="${module_path}_v${{ steps.generate_version.outputs.new_version }}"
           git tag $new_tag
+          git pull --rebase origin master
           git push origin $new_tag
       - name: Upload artifact
         uses: actions/upload-artifact@v2
