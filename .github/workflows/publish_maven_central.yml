@@ -23,7 +23,7 @@ jobs:
           module_path=$(echo "lib/widget/" | sed 's/\//:/g' | sed 's/^://')
           module_path=":${module_path}"  # Add a leading colon
           echo "Converted module path: $module_path"
-          ./gradlew $module_path:lint
+          ./gradlew ${module_path}lint
       - name: Check the current version number
         id: generate_version
         run: |
@@ -63,8 +63,9 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
         run: |
           module_path=$(echo "lib/widget/" | sed 's/\//:/g' | sed 's/^://')
+          module_path=":${module_path}"  # Add a leading colon
           echo "Converted module path: $module_path"
-          ./gradlew $module_path:publish
+          ./gradlew ${module_path}publish
       - name: Push versionCode
         run: |
           git config --global --add safe.directory /__w/DangoUnit/DangoUnit
@@ -80,7 +81,7 @@ jobs:
           git config --global user.email "github-actions@example.com"
           git config --global user.name "GitHub Actions"
           module_path=$(echo "lib/widget/" | sed 's/\//_/g' | sed 's/_$//')
-          new_tag="$module_path_v${{ steps.generate_version.outputs.new_version }}"
+          new_tag="${module_path}v${{ steps.generate_version.outputs.new_version }}"
           git tag $new_tag
           git push origin $new_tag
       - name: Upload artifact
