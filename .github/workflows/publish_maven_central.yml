@@ -5,7 +5,33 @@ on:
         required: true
         type: string
 jobs:
+  check_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check changes in specific directory
+        id: check_changes
+        run: |
+          CHANGES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          
+          CHANGED_FILES=()
+          for FILE in $CHANGES; do
+            if [[ $FILE == "${{ inputs.module_path }}"* ]]; then
+              CHANGED_FILES+=("$FILE")
+            fi
+          done
+          
+          if [ ${#CHANGED_FILES[@]} -gt 0 ]; then
+            echo "Changes found in specified directory."
+            echo "::set-output name=changes_found::true"
+          else
+            echo "No changes in specified directory."
+            echo "::set-output name=changes_found::false"
   push:
+    needs: check_changes
+    if: needs.check_changes.outputs.changes_found == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: print inputs
@@ -25,6 +51,7 @@ jobs:
 #          echo "Converted module path: $module_path"
 #          ./gradlew ${module_path}lint
       - name: Check the current version number
+        if: needs.check_changes.outputs.changes_found == 'true'
         id: generate_version
         run: |
           prev_version_1=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=([0-9]+)\.[0-9]+\.[0-9]+/\1/')
