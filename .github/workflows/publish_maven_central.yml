@@ -50,6 +50,7 @@ jobs:
           name: aar
           path: ./${{ inputs.module_path }}build/outputs/aar/
   pushTah:
+    needs: push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
