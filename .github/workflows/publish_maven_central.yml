@@ -5,35 +5,8 @@ on:
         required: true
         type: string
 jobs:
-  check_changes:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: l
-        run: |
-          git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
-      - name: Check changes in specific directory
-        id: check_changes
-        run: |
-          CHANGES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
-          CHANGED_FILES=()
-          for FILE in $CHANGES; do
-            if [[ $FILE == "${{ inputs.module_path }}"* ]]; then
-              CHANGED_FILES+=("$FILE")
-            fi
-          done
-          
-          if [ ${#CHANGED_FILES[@]} -gt 0 ]; then
-            echo "Changes found in specified directory."
-            echo "::set-output name=changes_found::true"
-          else
-            echo "No changes in specified directory."
-            echo "::set-output name=changes_found::false"
   push:
     needs: check_changes
-    if: needs.check_changes.outputs.changes_found == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: print inputs
