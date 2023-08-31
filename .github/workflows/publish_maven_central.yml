@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: aar
+          name: ${{ inputs.module_path }}
           path: ./${{ inputs.module_path }}build/outputs/aar/
   pushTag:
     needs: push
