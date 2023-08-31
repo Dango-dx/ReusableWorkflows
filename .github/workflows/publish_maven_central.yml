@@ -14,6 +14,7 @@ jobs:
       - name: Check changes in specific directory
         id: check_changes
         run: |
+          git diff --name-only cc377f7e1252fe669b8fedce4c4f41aa18419de6 ff3f460b0161f8ffeb544dec3ea5c9a666d9de66
           CHANGES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
           
           CHANGED_FILES=()
