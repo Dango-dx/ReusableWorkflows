@@ -27,9 +27,9 @@ jobs:
       - name: Check the current version number
         id: generate_version
         run: |
-          prev_version_1=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=([0-9]+)\.[0-9]+\.[0-9]+/\1/')
-          prev_version_2=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.([0-9]+)\.[0-9]+/\1/')
-          prev_version_3=$(grep "VERSION_NAME=" ${{ inputs.module_path }}gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.[0-9]+\.([0-9]+)/\1/')
+          prev_version_1=$(grep "VERSION_NAME=" /gradle.properties | sed -E 's/VERSION_NAME=([0-9]+)\.[0-9]+\.[0-9]+/\1/')
+          prev_version_2=$(grep "VERSION_NAME=" /gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.([0-9]+)\.[0-9]+/\1/')
+          prev_version_3=$(grep "VERSION_NAME=" /gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.[0-9]+\.([0-9]+)/\1/')
           new_version_1=$prev_version_1
           new_version_2=$prev_version_2
           new_version_3=$((prev_version_3 + 1))
@@ -45,15 +45,6 @@ jobs:
           formatted_version=$(printf "%s" "$new_version_1.$new_version_2.$new_version_3")
           echo "new_version=$formatted_version" >> $GITHUB_OUTPUT
           echo "Formatted Versions: $formatted_version"
-#      - name: Modify the local version number
-#        run: |
-#          # Update the versionCode in the build file
-#          new_version="${{ steps.generate_version.outputs.new_version }}"
-#          sed -i "s/^VERSION_NAME=.*/VERSION_NAME=$new_version/" ${{ inputs.module_path }}gradle.properties
-#      - name: Print local version number
-#        run: |
-#          # Update the versionCode in the build file
-#          grep "VERSION_NAME" ${{ inputs.module_path }}gradle.properties | grep '[0-9]\+$'
       - name: Publish mavenCentral
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
@@ -66,17 +57,6 @@ jobs:
           module_path=":${module_path}"  # Add a leading colon
           echo "Converted module path: $module_path"
           ./gradlew ${module_path}publish
-#      - name: Push versionCode
-#        run: |
-#          git config --global --add safe.directory /__w/DangoUnit/DangoUnit
-#          git config --global user.email "github-actions@example.com"
-#          git config --global user.name "GitHub Actions"
-#          PREV_COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)
-#          NEW_COMMIT_MESSAGE="$PREV_COMMIT_MESSAGE -->  Update versionCode"
-#          git add .
-#          git commit -m "$NEW_COMMIT_MESSAGE"
-#          git pull --rebase origin master
-#          git push
       - name: Push tag
         run: |
           git config --global --add safe.directory /__w/DangoUnit/DangoUnit
