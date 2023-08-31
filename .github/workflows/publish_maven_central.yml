@@ -6,7 +6,6 @@ on:
         type: string
 jobs:
   push:
-    needs: check_changes
     runs-on: ubuntu-latest
     steps:
       - name: print inputs
