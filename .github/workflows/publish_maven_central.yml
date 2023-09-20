@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ inputs.module_path }}/ | sed 's/\//_/g' | sed 's/_$//'
+          name: arr
           path: ./${{ inputs.module_path }}build/outputs/aar/
   pushTag:
     needs: push
