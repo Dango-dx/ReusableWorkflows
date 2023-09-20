@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: $(echo "${{ inputs.module_path }}" | sed 's/\//_/g' | sed 's/_$//')
+          name: ${{ inputs.module_path }}/ | sed 's/\//_/g' | sed 's/_$//'
           path: ./${{ inputs.module_path }}build/outputs/aar/
   pushTag:
     needs: push
@@ -83,6 +83,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           module_path=$(echo "${{ inputs.module_path }}" | sed 's/\//_/g' | sed 's/_$//')
           new_tag="${module_path}_v${{ steps.generate_version.outputs.new_version }}"
+          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
           git tag $new_tag
           git pull --rebase origin master
           git push origin $new_tag
