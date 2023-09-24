@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Log
         run: |
-          input_string="${{ inputs.myArrayParameter }}"
+          input_string="${{ inputs.module_paths_v2 }}"
           IFS=',' read -ra my_array <<< "$input_string"
           for item in "${my_array[@]}"; do
             echo "Array item: $item"
