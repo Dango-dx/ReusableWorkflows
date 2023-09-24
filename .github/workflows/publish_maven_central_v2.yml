@@ -15,6 +15,8 @@ jobs:
           for item in "${my_array[@]}"; do
             echo "Array item: $item"
           done
+        env:
+          MY_ARRAY: "${my_array[*]}"  # 将数组存储为环境变量
       - name: Send
         uses: zcong1993/actions-ding@master
         with:
@@ -27,3 +29,13 @@ jobs:
                 "text": "${{ inputs.module_path }}__v${{ steps.generate_version.outputs.new_version }} , 发布成功",
               }
             }
+  use_array:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Use the parsed array
+        run: |
+          # 在这里可以访问 MY_ARRAY 环境变量，并使用解析后的数组
+          for item in $MY_ARRAY; do
+            echo "Using array item: $item"
+          done
