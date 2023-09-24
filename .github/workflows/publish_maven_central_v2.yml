@@ -39,3 +39,9 @@ jobs:
           for item in $MY_ARRAY; do
             echo "Using array item: $item"
           done
+        env:
+          MY_ARRAY: ${{ needs.lint.outputs.MY_ARRAY }}
+
+
+
+
