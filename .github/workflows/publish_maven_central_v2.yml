@@ -3,17 +3,14 @@ on:
     inputs:
       module_paths_v2:
         required: true
-        type: string[]
+        type: string
 jobs:
   lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        module_path: ${{fromJson(needs.workflow_call.outputs.parameters).module_paths_v2}}
     steps:
       - name: Log
         run: |
-          echo "module_path = ${{ matrix.module_path}}"
+          echo "module_path = ${{ inputs.module_paths_v2}}"
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up JDK 17
