@@ -10,14 +10,11 @@ jobs:
     steps:
       - name: Log
         run: |
-          echo "module_path = ${{ inputs.module_paths_v2}}"
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+          input_string="${{ inputs.myArrayParameter }}"
+          IFS=',' read -ra my_array <<< "$input_string"
+          for item in "${my_array[@]}"; do
+            echo "Array item: $item"
+          done
       - name: Send
         uses: zcong1993/actions-ding@master
         with:
