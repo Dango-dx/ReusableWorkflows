@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        module_path: ${{fromJson(needs.workflow_call.outputs.parameters).module_paths}}
+        module_path: ${{fromJson(needs.workflow_call.outputs.parameters).module_paths_v2}}
     steps:
       - name: Log
         run: |
