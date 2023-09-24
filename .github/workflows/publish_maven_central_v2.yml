@@ -5,10 +5,10 @@ on:
         required: true
         type: string
 jobs:
-  lint:
+  process_input:
     runs-on: ubuntu-latest
     steps:
-      - name: Log
+      - name: Parse input string to array
         run: |
           input_string="${{ inputs.module_paths_v2 }}"
           IFS=',' read -ra my_array <<< "$input_string"
@@ -17,41 +17,26 @@ jobs:
           done
         env:
           MY_ARRAY: "${my_array[*]}"  # 将数组存储为环境变量
-      - name: Send
-        uses: zcong1993/actions-ding@master
-        with:
-          dingToken: 67b3d5302637555a9ef5c9ddb06b13d9d16d02fcb6fa119792154340046ea022
-          body: |
-            {
-              "msgtype": "markdown",
-              "markdown": {
-                "title": "action", 
-                "text": "${{ inputs.module_path }}__v${{ steps.generate_version.outputs.new_version }} , 发布成功",
-              }
-            }
-      - name: Upload
+
+      - name: Upload data as an artifact
         uses: actions/upload-artifact@v2
         with:
           name: my-data
           path: ${{ runner.workspace }}
+
   use_array:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: process_input
     steps:
       - name: Download data artifact
         uses: actions/download-artifact@v2
         with:
           name: my-data
           path: ${{ runner.workspace }}
+
       - name: Use the parsed array
         run: |
-          # 在这里可以访问 MY_ARRAY 环境变量，并使用解析后的数组
+          # 在这里可以访问之前上传的数据，并使用解析后的数组
           for item in $MY_ARRAY; do
             echo "Using array item: $item"
           done
-        env:
-          MY_ARRAY: ${{ needs.lint.outputs.MY_ARRAY }}
-
-
-
-
