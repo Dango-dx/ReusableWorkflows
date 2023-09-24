@@ -18,6 +18,11 @@ jobs:
         env:
           MY_ARRAY: "${my_array[*]}"  # 将数组存储为环境变量
 
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        run: |
+          env
+
       - name: Upload data as an artifact
         uses: actions/upload-artifact@v2
         with:
