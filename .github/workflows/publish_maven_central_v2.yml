@@ -1,0 +1,35 @@
+on:
+  workflow_call:
+    inputs:
+      module_paths_v2:
+        required: true
+        type: string[]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module_path: ${{fromJson(needs.workflow_call.outputs.parameters).module_paths}}
+    steps:
+      - name: Log
+        run: |
+          echo "module_path = ${{ matrix.module_path}}"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Send
+        uses: zcong1993/actions-ding@master
+        with:
+          dingToken: 67b3d5302637555a9ef5c9ddb06b13d9d16d02fcb6fa119792154340046ea022
+          body: |
+            {
+              "msgtype": "markdown",
+              "markdown": {
+                "title": "action", 
+                "text": "${{ inputs.module_path }}__v${{ steps.generate_version.outputs.new_version }} , 发布成功",
+              }
+            }
