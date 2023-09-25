@@ -18,7 +18,7 @@ jobs:
           matrix_json2='${{ inputs.module_paths_v2 }}'
           echo $matrix_json
           echo $matrix_json2
-          echo "::set-output name=matrix::$matrix_json"
+          echo "::set-output name=matrix::$matrix_json2"
 
   dynamic-job:
     needs: generate-props
@@ -34,7 +34,7 @@ jobs:
       - name: Set up Node.js
         run: |
           echo ${{ needs.generate-props.outputs.matrix }}
-          matrix_json=${{ matrix.aos2 }}
+          matrix_json=${{ matrix.module }}
           echo "::set-output name=matrix::$matrix_json"
 
   end:
