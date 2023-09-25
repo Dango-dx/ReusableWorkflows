@@ -19,8 +19,8 @@ jobs:
 
   dynamic-job:
     needs: generate-props
-    strategy:
-      matrix: ${{fromJson(needs.generate-props.outputs.matrix)}}
+#    strategy:
+#      matrix: ${{fromJson(needs.generate-props.outputs.matrix)}}
 
     runs-on: ubuntu-latest
 
@@ -30,6 +30,7 @@ jobs:
 
       - name: Set up Node.js
         run: |
+          echo ${{ needs.generate-props.outputs.matrix }}
           matrix_json=${{ matrix.module }}
           echo "::set-output name=matrix::$matrix_json"
 
