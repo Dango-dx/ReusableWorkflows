@@ -5,7 +5,7 @@ on:
         required: true
         type: string
 jobs:
-  generate-matrix:
+  generate-props:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -14,13 +14,12 @@ jobs:
       - name: Set matrix
         id: set-matrix
         run: |
-          # Here you can write custom logic to generate the matrix based on the previous job's output
-          # For example, you can parse the output, create a JSON string representing the matrix, and set it as an output
+          echo "inputs == ${{ inputs.module_paths_v2 }}"
           matrix_json='{"os": ["ubuntu-latest", "macos-latest"], "node-version": ["12", "14"]}'
           echo "::set-output name=matrix::$matrix_json"
 
   dynamic-job:
-    needs: generate-matrix
+    needs: generate-props
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
 
@@ -34,6 +33,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+
   end:
     needs: dynamic-job
     runs-on: ubuntu-latest
