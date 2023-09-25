@@ -14,8 +14,8 @@ jobs:
       - name: Set matrix
         id: set-matrix
         run: |
-          echo ${{ inputs.module_paths_v2 }}
-          echo "::set-output name=matrix::${{ inputs.module_paths_v2 }}"
+          matrix_json='{"os": ["ubuntu-latest", "macos-latest"], "node-version": ["12", "14"]}'
+          echo "::set-output name=matrix::$matrix_json"
 
   dynamic-job:
     needs: generate-props
