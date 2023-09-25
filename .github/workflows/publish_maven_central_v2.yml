@@ -31,7 +31,7 @@ jobs:
       - name: Set up Node.js
         run: |
           echo ${{ needs.generate-props.outputs.matrix }}
-          matrix_json=${{ matrix.module }}
+          matrix_json=${{ matrix.aos2 }}
           echo "::set-output name=matrix::$matrix_json"
 
   end:
