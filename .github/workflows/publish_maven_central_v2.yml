@@ -15,7 +15,7 @@ jobs:
         id: set-matrix
         run: |
           echo "inputs == ${{ inputs.module_paths_v2 }}"
-          matrix_json='"node-version": ["12", "14"]}'
+          matrix_json='{"node-version": ["12", "14"]}'
           echo "::set-output name=matrix::$matrix_json"
 
   dynamic-job:
