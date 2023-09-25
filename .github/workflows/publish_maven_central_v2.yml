@@ -21,7 +21,7 @@ jobs:
   dynamic-job:
     needs: generate-props
     strategy:
-      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+      matrix: ${{fromJson(needs.generate-props.outputs.matrix)}}
 
     runs-on: ubuntu-latest
 
