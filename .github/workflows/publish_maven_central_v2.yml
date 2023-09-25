@@ -14,7 +14,7 @@ jobs:
       - name: Set matrix
         id: set-matrix
         run: |
-          matrix_json='{"os": ["ubuntu-latest", "macos-latest"], "node-version": ["12", "14"]}'
+          matrix_json='{"aos2": ["ubuntu-latest", "macos-latest"], "anode-version2": ["12", "14"]}'
           echo "::set-output name=matrix::$matrix_json"
 
   dynamic-job:
