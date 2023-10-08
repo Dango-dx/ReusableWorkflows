@@ -79,6 +79,6 @@ jobs:
               "msgtype": "markdown",
               "markdown": {
                 "title": "action", 
-                "text": "${{ inputs.module_path }}__v${{ steps.generate_version.outputs.new_version }} , 发布成功",
+                "text": "${{ inputs.module_path }}__v${{ steps.generate_version.outputs.publish_version }} , 发布成功",
               }
             }
