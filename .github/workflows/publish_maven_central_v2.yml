@@ -9,17 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-
+      version: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Set matrix
         id: set-matrix
         run: |
-          matrix_json='{"aos2": ["ubuntu-latest", "macos-latest"], "anode-version2": ["12", "14"]}'
-          matrix_json2='${{ inputs.module_paths_v2 }}'
+          matrix_json='${{ inputs.module_paths_v2 }}'
           echo $matrix_json
-          echo $matrix_json2
-          echo "::set-output name=matrix::$matrix_json2"
-
+          echo "::set-output name=matrix::$matrix_json"
   dynamic-job:
     needs: generate-props
     strategy:
