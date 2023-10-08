@@ -13,7 +13,7 @@ jobs:
       - name: Set Publish Module Json
         id: SET-PUBLISH-MODULE-JSON
         run: |
-          echo "publish_module_json=${{ inputs.module_paths_v2 }}" >> "$GITHUB_OUTPUT"
+          echo "publish_module_json='${{ inputs.module_paths_v2 }}'" >> "$GITHUB_OUTPUT"
   dynamic-job:
     needs: generate-props
     strategy:
