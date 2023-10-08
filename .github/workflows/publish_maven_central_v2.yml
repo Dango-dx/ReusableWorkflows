@@ -44,6 +44,11 @@ jobs:
           echo ${{ needs.generate-props.outputs.publish_version }}
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
       - name: Lint
         run: |
           ./gradlew ${{ matrix.module }}:lint
