@@ -37,10 +37,30 @@ jobs:
       matrix: ${{fromJson(needs.generate-props.outputs.publish_module_json)}}
     steps:
       - name: Log generate-props
+        id: GENERATE-PROPS
         run: |
           echo ${{ needs.generate-props.outputs.publish_module_json }}
           echo ${{ matrix.module }}
           echo ${{ needs.generate-props.outputs.publish_version }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Lint
+        run: |
+          ./gradlew ${{ matrix.module }}:lint
+      - name: Publish mavenCentral
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
+        run: |
+          ./gradlew ${{ matrix.module }}:publish
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: arr
+          path: ./${{ inputs.module_path }}build/outputs/aar/
   end:
     needs: dynamic-job
     runs-on: ubuntu-latest
