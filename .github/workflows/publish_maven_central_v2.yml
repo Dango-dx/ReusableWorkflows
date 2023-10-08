@@ -11,6 +11,8 @@ jobs:
       publish_module_json: ${{ steps.SET-PUBLISH-MODULE-JSON.outputs.publish_module_json }}
       publish_version: ${{ steps.SET-PUBLISH-VERSION.outputs.publish_version }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Set Publish Module Json
         id: SET-PUBLISH-MODULE-JSON
         run: |
