@@ -70,6 +70,12 @@ jobs:
     needs: dynamic-job
     runs-on: ubuntu-latest
     steps:
+      - name: Log generate-props
+        id: GENERATE-PROPS
+        run: |
+          echo ${{ needs.generate-props.outputs.publish_module_json }}
+          echo ${{ matrix.module }}
+          echo ${{ needs.generate-props.outputs.publish_version }}
       - name: Send
         uses: zcong1993/actions-ding@master
         with:
@@ -79,6 +85,6 @@ jobs:
               "msgtype": "markdown",
               "markdown": {
                 "title": "action", 
-                "text": "${{ inputs.module_path }}__v${{ steps.generate_version.outputs.publish_version }} , 发布成功",
+                "text": "${{ inputs.module_paths_v2 }} , 这些模块发布版本 [v${{ needs.generate-props.outputs.publish_version }}]",
               }
             }
