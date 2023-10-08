@@ -8,20 +8,16 @@ jobs:
   generate-props:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-      publish_module_json: ${{ steps.set-matrix.outputs.publish_module_json }}
+      publish_module_json: ${{ steps.SET-PUBLISH-MODULE-JSON.outputs.publish_module_json }}
     steps:
-      - name: Set matrix
-        id: set-matrix
+      - name: Set Publish Module Json
+        id: SET-PUBLISH-MODULE-JSON
         run: |
-          matrix_json='${{ inputs.module_paths_v2 }}'
-          echo $matrix_json
-          echo "::set-output name=matrix::$matrix_json"
-          echo "publish_module_json=$matrix_json" >> "$GITHUB_OUTPUT"
+          echo "publish_module_json=${{ inputs.module_paths_v2 }}" >> "$GITHUB_OUTPUT"
   dynamic-job:
     needs: generate-props
     strategy:
-      matrix: ${{fromJson(needs.generate-props.outputs.matrix)}}
+      matrix: ${{fromJson(needs.generate-props.outputs.publish_module_json)}}
 
     runs-on: ubuntu-latest
 
@@ -31,7 +27,6 @@ jobs:
 
       - name: Set up Node.js
         run: |
-          echo ${{ needs.generate-props.outputs.matrix }}
           echo ${{ needs.generate-props.outputs.publish_module_json }}
 
   end:
