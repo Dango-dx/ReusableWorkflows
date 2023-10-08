@@ -9,27 +9,31 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       publish_module_json: ${{ steps.SET-PUBLISH-MODULE-JSON.outputs.publish_module_json }}
+      publish_version: ${{ steps.SET-PUBLISH-VERSION.outputs.publish_version }}
     steps:
       - name: Set Publish Module Json
         id: SET-PUBLISH-MODULE-JSON
         run: |
           matrix_json='${{ inputs.module_paths_v2 }}'
           echo "publish_module_json=$matrix_json" >> "$GITHUB_OUTPUT"
+      - name: Set Publish Version
+        id: SET-PUBLISH-VERSION
+        run: |
+          prev_version_1=$(grep "VERSION_NAME=" gradle.properties | sed -E 's/VERSION_NAME=([0-9]+)\.[0-9]+\.[0-9]+/\1/')
+          prev_version_2=$(grep "VERSION_NAME=" gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.([0-9]+)\.[0-9]+/\1/')
+          prev_version_3=$(grep "VERSION_NAME=" gradle.properties | sed -E 's/VERSION_NAME=[0-9]+\.[0-9]+\.([0-9]+)/\1/')
+          formatted_version=$(printf "%s" "$prev_version_1.$prev_version_2.$prev_version_3")
+          echo "publish_version=$formatted_version" >> $GITHUB_OUTPUT
   dynamic-job:
+    runs-on: ubuntu-latest
     needs: generate-props
     strategy:
       matrix: ${{fromJson(needs.generate-props.outputs.publish_module_json)}}
-
-    runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
+      - name: Log generate-props
         run: |
           echo ${{ needs.generate-props.outputs.publish_module_json }}
-
+          echo ${{ needs.generate-props.outputs.publish_version }}
   end:
     needs: dynamic-job
     runs-on: ubuntu-latest
