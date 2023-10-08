@@ -39,7 +39,7 @@ jobs:
       - name: Log generate-props
         run: |
           echo ${{ needs.generate-props.outputs.publish_module_json }}
-          echo ${{ matrix }}
+          echo ${{ matrix.module }}
           echo ${{ needs.generate-props.outputs.publish_version }}
   end:
     needs: dynamic-job
