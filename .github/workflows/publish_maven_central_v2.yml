@@ -85,7 +85,7 @@ jobs:
               "msgtype": "link",
               "link": {
                 "title": "自动发布成功", 
-                "text": "${{ inputs.module_paths_v2 }} , 这些模块发布版本 [v${{ needs.generate-props.outputs.publish_version }}]",
+                "text": "DangoUnit 发布版本 [v${{ needs.generate-props.outputs.publish_version }}]",
                 "messageUrl":"https://github.com/DangoDX/DangoUnit/actions/workflows/schedule.yml"
               }
             }
