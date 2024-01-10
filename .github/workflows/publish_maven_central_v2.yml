@@ -79,7 +79,7 @@ jobs:
       - name: Send
         uses: zcong1993/actions-ding@master
         with:
-          dingToken: 67b3d5302637555a9ef5c9ddb06b13d9d16d02fcb6fa119792154340046ea022
+          dingToken: 814b2467f4a2cd354fe6317e8bf6d2bd544f1c60bb4f1a6971d09f573306a7c6
           body: |
             {
               "msgtype": "link",
