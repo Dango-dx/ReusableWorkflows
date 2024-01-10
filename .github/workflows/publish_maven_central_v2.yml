@@ -54,15 +54,15 @@ jobs:
       - name: Lint
         run: |
           ./gradlew ${{ matrix.module }}:lint
-#      - name: Publish mavenCentral
-#        env:
-#          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
-#          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
-#          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
-#          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
-#          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
-#        run: |
-#          ./gradlew ${{ matrix.module }}:publish
+      - name: Publish mavenCentral
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
+        run: |
+          ./gradlew ${{ matrix.module }}:publish
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -87,7 +87,7 @@ jobs:
               "msgtype": "link",
               "link": {
                 "title": "自动发布成功", 
-                "text": "DangoUnit 发布版本 [v${{ needs.dynamic-job.outputs.publish_version }}]",
+                "text": "DangoUnit 发布版本 V${{ needs.dynamic-job.outputs.publish_version }}",
                 "messageUrl":"https://github.com/DangoDX/DangoUnit/actions/workflows/schedule.yml"
               }
             }
