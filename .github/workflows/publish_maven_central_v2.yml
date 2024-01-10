@@ -68,6 +68,10 @@ jobs:
         with:
           name: arr
           path: ./${{ inputs.module_path }}build/outputs/aar/
+      - name: Job fail
+        continue-on-error: true
+        run: |
+         exit 1
   end:
     needs: dynamic-job
     runs-on: ubuntu-latest
