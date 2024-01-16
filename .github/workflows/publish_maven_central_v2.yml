@@ -38,7 +38,8 @@ jobs:
             {
               "msgtype": "markdown",
               "markdown": {
-                "title": "DangoUnit 开始打包 V${{ steps.SET-PUBLISH-VERSION.outputs.publish_version }}"
+                "title": "开始打包",
+                "text": "DangoUnit 开始打包 V${{ steps.SET-PUBLISH-VERSION.outputs.publish_version }}"
               }
             }
   dynamic-job:
