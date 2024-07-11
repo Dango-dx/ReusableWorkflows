@@ -77,7 +77,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
         run: |
-          ./gradlew ${{ matrix.module }}:publish
+          ./gradlew publish
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
